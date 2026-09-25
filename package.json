@@ -1,6 +1,6 @@
 {
   "name": "@oxy.so/bloom-ai-icons",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "packageManager": "bun@1.4.2",
   "description": "Bloom AI provider logos — model-lab marks as React Native + Web icon components, and AiProviderLogo, which resolves a catalogue publisher id to its mark",
   "main": "lib/commonjs/index.js",
