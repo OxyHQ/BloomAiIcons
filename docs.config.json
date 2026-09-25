@@ -1,0 +1,10 @@
+{
+  "package": "@oxy.so/bloom-ai-icons",
+  "displayName": "Bloom AI Icons",
+  "shortName": "bloom-ai-icons",
+  "repo": "https://github.com/OxyHQ/BloomAiIcons",
+  "category": "ui-library",
+  "versioned": false,
+  "docsPath": "docs/",
+  "description": "AI model-publisher marks for Bloom, and AiProviderLogo"
+}

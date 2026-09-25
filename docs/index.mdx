@@ -1,0 +1,202 @@
+---
+title: Bloom AI Icons
+description: Model-lab marks as React Native + Web icon components, and AiProviderLogo, which turns a catalogue publisher id (openai, mistralai, x-ai, meta-llama…) into the right mark — or a clean initial when there is none.
+order: 0
+---
+
+# Bloom AI Icons
+
+`@oxy.so/bloom-ai-icons` is Bloom's companion package for the marks of AI
+model publishers. It is separate from `@oxy.so/bloom` so the main kit stays
+light: 51 drawings, 36 of them in full colour, are weight an app that never
+lists models should not carry.
+
+Peers: `react` and `react-native-svg` only. Nothing reads Bloom's theme —
+colour arrives as a prop, which is what every Bloom slot that takes a mark
+already hands over.
+
+```bash
+bun add @oxy.so/bloom-ai-icons
+```
+
+## `AiProviderLogo`
+
+```tsx
+import { AiProviderLogo } from '@oxy.so/bloom-ai-icons';
+
+<AiProviderLogo provider="mistralai" size={20} color={colors.text} />
+<AiProviderLogo provider="openai/gpt-4o" variant="mono" size={16} color={colors.textSecondary} />
+```
+
+| Prop | Type | Default | |
+|---|---|---|---|
+| `provider` | `string` | — | Publisher id as a catalogue spells it, or a full model id |
+| `size` | `number \| 'xs' … '3xl'` | `20` | px, or a Bloom icon rung |
+| `color` | `string` | `currentColor` | Paint for mono marks, the mono parts of colour marks, and the fallback |
+| `variant` | `'color' \| 'mono'` | `'color'` | Marks without a colour drawing are always mono |
+
+Every other `react-native-svg` `Svg` prop (`testID`, `accessibilityLabel`,
+`style`…) passes through.
+
+### In the ModelPicker
+
+The picker's provider `logo` slot is `({ size, color }) => ReactNode`, and
+`AiProviderLogo` takes exactly those two props, so it drops in unchanged:
+
+```tsx
+const providers = catalogue.map((p) => ({
+  id: p.id,
+  name: p.name,
+  logo: (props) => <AiProviderLogo provider={p.id} variant="mono" {...props} />,
+  models: p.models,
+}));
+```
+
+The rail draws monochrome marks, so pass `variant="mono"` there; the colour
+drawings are for places that show a brand on its own.
+
+### When there is no mark
+
+The component never renders nothing. An id with no mark draws its first
+letter or digit on a rounded square: the square is `color` at 14%, the letter
+`color` — so it takes the same theme the mark would have. Use
+`hasAiProviderLogo(id)` to decide ahead of time (to hide the slot instead,
+say), and `AiProviderLogoFallback` to draw the fallback on its own.
+
+## Resolving an id
+
+`resolveAiProvider(id)` returns the registry key, or `undefined`. It tries, in
+order, stopping at the first hit:
+
+1. the id, lowercased (`OpenAI` → `openai`), with spaces, `_` and `.` read as
+   hyphens, and anything after a `/` dropped (`x-ai/grok-4` → `x-ai`);
+2. without hyphens (`x-ai` → `xai`, `aion-labs` → `aionlabs`);
+3. without a trailing `ai`, `lab(s)`, `research` or `studio` (`mistralai` →
+   `mistral`, `arcee-ai` → `arcee`);
+4. the first hyphen segment (`ibm-granite` → `ibm`, `bytedance-seed` →
+   `bytedance`);
+5. that segment without the suffix.
+
+Each step checks the registry, then `AI_PROVIDER_ALIASES` — the publishers
+that ship under another mark: `amazon` → `aws`, `meituan` → `longcat`,
+`inclusionai` → `antgroup`, `meta-llama` → `meta`, `moonshotai` →
+`moonshot` and a few more. The exact id is always tried before a stripped
+one, so `openai` is never read as `open`.
+`aiProviderCandidates(id)` returns the list it will try.
+
+Publishers checked against the resolver, and what they reach:
+
+| Catalogue id | Mark |
+|---|---|
+| `openai`, `anthropic`, `google`, `qwen`, `deepseek`, `nvidia`, `minimax`, `kimi`, `cohere`, `microsoft`, `perplexity`, `ai21`, `inception`, `liquid`, `poolside`, `relace`, `sakana`, `stepfun`, `tencent`, `upstage`, `kwaipilot`, `xiaomi`, `nousresearch`, `baidu`, `alibaba`, `huggingface`, `together` | the same key |
+| `mistralai`, `x-ai`, `z-ai`, `rekaai`, `arcee-ai`, `aion-labs`, `dots-studio`, `moonshotai`, `meta-llama`, `ibm-granite`, `bytedance-seed` | by normalisation |
+| `amazon`, `meituan`, `inclusionai` | `aws`, `longcat`, `antgroup` (aliases) |
+| `thinkingmachines`, `sao10k` | no mark — the initial |
+
+## The marks
+
+Each mark is its own module and its own export subpath, so an app that
+draws one ships one:
+
+```tsx
+import { AiLogoAnthropic } from '@oxy.so/bloom-ai-icons/AiLogoAnthropic';
+
+<AiLogoAnthropic size="lg" fill={colors.text} />
+```
+
+They take the same props as a Bloom `Ri*` icon — `size` (a rung or px),
+`width` / `height`, `fill`, `style` — plus `color` and `variant`. Mono paint
+is `fill`, then `color`, then `style.color`, then `currentColor`. So a mark
+fits Bloom's `BloomIconComponent` slots as well as the `{ size, color }` ones.
+
+`AiProviderLogo` itself imports every mark (it has to, to resolve at runtime),
+as does the package root. Import a mark by subpath when you know it statically.
+
+| `AiLogoAi21` | AI21 Labs | `ai21` | — |
+| `AiLogoAionLabs` | Aion Labs | `aionlabs` | yes |
+| `AiLogoAlibaba` | Alibaba | `alibaba` | yes |
+| `AiLogoAlibabaCloud` | Alibaba Cloud | `alibabacloud` | yes |
+| `AiLogoAntGroup` | Ant Group | `antgroup` | yes |
+| `AiLogoAnthropic` | Anthropic | `anthropic` | — |
+| `AiLogoArcee` | Arcee AI | `arcee` | yes |
+| `AiLogoAws` | Amazon Web Services | `aws` | yes |
+| `AiLogoBaidu` | Baidu | `baidu` | yes |
+| `AiLogoByteDance` | ByteDance | `bytedance` | yes |
+| `AiLogoClaude` | Claude | `claude` | yes |
+| `AiLogoCohere` | Cohere | `cohere` | yes |
+| `AiLogoDeepMind` | Google DeepMind | `deepmind` | yes |
+| `AiLogoDeepSeek` | DeepSeek | `deepseek` | yes |
+| `AiLogoDotsStudio` | dots.studio | `dotsstudio` | — |
+| `AiLogoDoubao` | Doubao | `doubao` | yes |
+| `AiLogoGemini` | Gemini | `gemini` | yes |
+| `AiLogoGoogle` | Google | `google` | yes |
+| `AiLogoGrok` | Grok | `grok` | — |
+| `AiLogoHuggingFace` | Hugging Face | `huggingface` | yes |
+| `AiLogoHunyuan` | Hunyuan | `hunyuan` | yes |
+| `AiLogoIbm` | IBM | `ibm` | — |
+| `AiLogoInception` | Inception | `inception` | — |
+| `AiLogoKimi` | Kimi | `kimi` | yes |
+| `AiLogoKwaipilot` | Kwaipilot | `kwaipilot` | yes |
+| `AiLogoLiquid` | Liquid AI | `liquid` | — |
+| `AiLogoLongCat` | LongCat | `longcat` | yes |
+| `AiLogoMeta` | Meta | `meta` | yes |
+| `AiLogoMicrosoft` | Microsoft | `microsoft` | yes |
+| `AiLogoMiniMax` | MiniMax | `minimax` | yes |
+| `AiLogoMistral` | Mistral AI | `mistral` | yes |
+| `AiLogoMoonshot` | Moonshot AI | `moonshot` | — |
+| `AiLogoNousResearch` | Nous Research | `nousresearch` | — |
+| `AiLogoNova` | Amazon Nova | `nova` | yes |
+| `AiLogoNvidia` | NVIDIA | `nvidia` | yes |
+| `AiLogoOpenAI` | OpenAI | `openai` | — |
+| `AiLogoPerplexity` | Perplexity | `perplexity` | yes |
+| `AiLogoPoolside` | Poolside | `poolside` | yes |
+| `AiLogoQwen` | Qwen | `qwen` | yes |
+| `AiLogoReka` | Reka AI | `reka` | — |
+| `AiLogoRelace` | Relace | `relace` | — |
+| `AiLogoSakana` | Sakana AI | `sakana` | yes |
+| `AiLogoStepFun` | StepFun | `stepfun` | yes |
+| `AiLogoTencent` | Tencent | `tencent` | yes |
+| `AiLogoTogether` | Together AI | `together` | yes |
+| `AiLogoUpstage` | Upstage | `upstage` | yes |
+| `AiLogoWenxin` | ERNIE | `wenxin` | yes |
+| `AiLogoXAI` | xAI | `xai` | — |
+| `AiLogoXiaomi` | Xiaomi MiMo | `xiaomi` | — |
+| `AiLogoZAI` | Z.ai | `zai` | — |
+| `AiLogoZhipu` | Zhipu AI | `zhipu` | yes |
+
+Each component also carries `logoName` (the brand as written) and
+`hasColor`. `AI_PROVIDER_LOGOS` maps every key to its component.
+
+### Colour and theme
+
+- **Mono** marks paint one colour: the one you hand over.
+- **Colour** marks keep the brand's colours. Parts of a colour drawing that
+  are really "the text colour" — the AWS wordmark, the LongCat face, the Kimi
+  letter — follow `color` instead, so they stay visible in dark mode.
+- Gradient, mask and clip ids are made per instance with `useId`, so any
+  number of colour marks can share a web page without painting each other's
+  gradients.
+
+## Adding a mark
+
+The components are generated; never edit `src/icons/` by hand. Add an entry
+to `scripts/icon-manifest.json` and run:
+
+```bash
+node scripts/generate-icons.mjs --source <base-url-of-the-svg-set>
+# or, from a local folder of <name>.svg / <name>-color.svg
+node scripts/generate-icons.mjs --dir <folder>
+```
+
+The script reads `<source>.svg` (mono) and, if present, `<source>-color.svg`,
+and writes the component, the barrel and the registry. What it rewrites in a
+drawing — ids, `currentColor`, alpha masks — and why is in its header
+comment. Then add the id to the resolver tests and look at the result on a
+light and a dark background: a colour drawing made for a dark tile needs a
+`colorFollowsTheme` entry, as Kimi's does.
+
+## Licence
+
+Breathe License 1.0, like Bloom. Third-party notices for the drawings are in
+`NOTICE`. Every logo is a trademark of its owner, included to identify the
+provider.
