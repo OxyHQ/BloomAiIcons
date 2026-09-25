@@ -1,0 +1,147 @@
+{
+  "name": "@oxy.so/bloom-ai-icons",
+  "version": "0.0.0",
+  "packageManager": "bun@1.4.2",
+  "description": "Bloom AI provider logos — model-lab marks as React Native + Web icon components, and AiProviderLogo, which resolves a catalogue publisher id to its mark",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/commonjs/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OxyHQ/BloomAiIcons.git"
+  },
+  "homepage": "https://github.com/OxyHQ/BloomAiIcons#readme",
+  "exports": {
+    ".": {
+      "react-native": {
+        "types": "./lib/typescript/module/index.d.ts",
+        "default": "./src/index.ts"
+      },
+      "import": {
+        "types": "./lib/typescript/module/index.d.ts",
+        "default": "./lib/module/index.js"
+      },
+      "require": {
+        "types": "./lib/typescript/commonjs/index.d.ts",
+        "default": "./lib/commonjs/index.js"
+      }
+    },
+    "./AiLogo*": {
+      "react-native": {
+        "types": "./lib/typescript/module/icons/AiLogo*.d.ts",
+        "default": "./src/icons/AiLogo*.tsx"
+      },
+      "import": {
+        "types": "./lib/typescript/module/icons/AiLogo*.d.ts",
+        "default": "./lib/module/icons/AiLogo*.js"
+      },
+      "require": {
+        "types": "./lib/typescript/commonjs/icons/AiLogo*.d.ts",
+        "default": "./lib/commonjs/icons/AiLogo*.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "AiLogo*": [
+        "lib/typescript/commonjs/icons/AiLogo*.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "NOTICE",
+    "src",
+    "lib",
+    "docs/*.mdx",
+    "!**/__tests__/**",
+    "!**/__mocks__/**",
+    "!**/*.stories.*",
+    "!**/*.test.*",
+    "!**/*.spec.*"
+  ],
+  "scripts": {
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "build": "bob build",
+    "postbuild": "node scripts/verify-package.mjs",
+    "verify:package": "node scripts/verify-package.mjs",
+    "test": "jest",
+    "typescript": "tsc --noEmit",
+    "clean": "rm -rf lib",
+    "prepack": "bun run clean && bun run build",
+    "release": "rm -rf lib && bun run build && release-it"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "bloom",
+    "icons",
+    "ai",
+    "logos"
+  ],
+  "author": "The Oxy Collective, Inc.",
+  "license": "SEE LICENSE IN LICENSE",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native-svg": ">=13.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/react": "~19.1.0",
+    "@types/react-test-renderer": "^19.1.0",
+    "jest": "^30.3.0",
+    "react": "19.2.0",
+    "react-native": "0.83.2",
+    "react-native-builder-bob": "^0.40.16",
+    "react-native-svg": "^15.15.3",
+    "react-test-renderer": "19.2.0",
+    "release-it": "^19.0.6",
+    "ts-jest": "^29.4.6",
+    "typescript": "~5.9.2"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "exclude": "{**/{__tests__,__mocks__}/**,**/*.stories.{ts,tsx},**/*.{test,spec}.{ts,tsx}}",
+    "targets": [
+      [
+        "commonjs",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "release-it": {
+    "git": {
+      "tagName": "@oxy.so/bloom-ai-icons@${version}",
+      "tagAnnotation": "Release @oxy.so/bloom-ai-icons@${version}",
+      "commitMessage": "chore: release @oxy.so/bloom-ai-icons@${version}"
+    },
+    "github": {
+      "release": true,
+      "releaseName": "@oxy.so/bloom-ai-icons@${version}"
+    },
+    "npm": {
+      "publish": true
+    }
+  }
+}
