@@ -37,7 +37,9 @@ for (const [subpath, spec] of Object.entries(pkg.exports)) {
     expansions.set(cond, names.join(','));
   }
   if (new Set(expansions.values()).size > 1) {
-    errors.push(`${subpath}: conditions expand to different names:\n  ${[...expansions].map(([c, n]) => `${c}: ${n.split(',').length}`).join('\n  ')}`);
+    errors.push(
+      `${subpath}: conditions expand to different names:\n  ${[...expansions].map(([c, n]) => `${c}: ${n.split(',').length}`).join('\n  ')}`,
+    );
   }
 }
 for (const f of [pkg.main, pkg.module, pkg.types, pkg['react-native'], 'NOTICE', 'LICENSE']) {

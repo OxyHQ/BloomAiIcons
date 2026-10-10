@@ -19,7 +19,20 @@ export const Playground = { args: {} as AiProviderLogoProps };
 export const CatalogueIds = {
   render: (args: AiProviderLogoProps) => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-      {['mistralai', 'x-ai', 'meta-llama', 'ibm-granite', 'moonshotai', 'bytedance-seed', 'z-ai', 'aion-labs', 'rekaai', 'dots-studio', 'amazon', 'thinkingmachines'].map((id) => (
+      {[
+        'mistralai',
+        'x-ai',
+        'meta-llama',
+        'ibm-granite',
+        'moonshotai',
+        'bytedance-seed',
+        'z-ai',
+        'aion-labs',
+        'rekaai',
+        'dots-studio',
+        'amazon',
+        'thinkingmachines',
+      ].map((id) => (
         <div key={id} style={{ textAlign: 'center', width: 96, fontSize: 11 }}>
           <AiProviderLogo {...args} provider={id} />
           <div>{id}</div>

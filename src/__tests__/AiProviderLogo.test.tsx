@@ -1,7 +1,12 @@
 import type { ReactNode } from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 
-import { AI_PROVIDER_LOGOS, AiProviderLogo, AiProviderLogoFallback, aiProviderInitial } from '../index';
+import {
+  AI_PROVIDER_LOGOS,
+  AiProviderLogo,
+  AiProviderLogoFallback,
+  aiProviderInitial,
+} from '../index';
 
 function render(el: React.ReactElement): ReactTestRenderer {
   let r!: ReactTestRenderer;
@@ -14,7 +19,10 @@ function render(el: React.ReactElement): ReactTestRenderer {
 describe('AiProviderLogo', () => {
   it('draws the resolved mark', () => {
     const r = render(<AiProviderLogo provider="mistralai" size={16} color="#333" />);
-    expect(r.root.findByType(AI_PROVIDER_LOGOS.mistral).props).toMatchObject({ size: 16, color: '#333' });
+    expect(r.root.findByType(AI_PROVIDER_LOGOS.mistral).props).toMatchObject({
+      size: 16,
+      color: '#333',
+    });
     expect(r.root.findAllByType(AiProviderLogoFallback)).toHaveLength(0);
   });
 
@@ -33,7 +41,10 @@ describe('AiProviderLogo', () => {
     const r = render(<AiProviderLogo provider="thinkingmachines" size={18} color="#222" />);
     const svg = r.root.findByType('Svg' as never);
     expect(svg.props).toMatchObject({ width: 18, height: 18 });
-    expect(r.root.findByType('Rect' as never).props).toMatchObject({ fill: '#222', fillOpacity: 0.14 });
+    expect(r.root.findByType('Rect' as never).props).toMatchObject({
+      fill: '#222',
+      fillOpacity: 0.14,
+    });
     const text = r.root.findByType('SvgText' as never);
     expect(text.props.fill).toBe('#222');
     expect(text.props.children).toBe('T');
@@ -41,7 +52,10 @@ describe('AiProviderLogo', () => {
 
   it('fallback paints currentColor when no colour is given', () => {
     const r = render(<AiProviderLogo provider="sao10k" />);
-    expect(r.root.findByType('SvgText' as never).props).toMatchObject({ fill: 'currentColor', children: 'S' });
+    expect(r.root.findByType('SvgText' as never).props).toMatchObject({
+      fill: 'currentColor',
+      children: 'S',
+    });
   });
 
   it('initial skips punctuation and handles empty ids', () => {
@@ -57,6 +71,9 @@ describe('AiProviderLogo', () => {
       <AiProviderLogo provider="openai" {...p} />
     );
     const r = render(<>{logo({ size: 20, color: '#000' })}</>);
-    expect(r.root.findByType(AI_PROVIDER_LOGOS.openai).props).toMatchObject({ size: 20, color: '#000' });
+    expect(r.root.findByType(AI_PROVIDER_LOGOS.openai).props).toMatchObject({
+      size: 20,
+      color: '#000',
+    });
   });
 });

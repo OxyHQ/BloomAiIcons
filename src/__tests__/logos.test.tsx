@@ -18,7 +18,8 @@ const within = (n: ReactTestInstance, test: (a: ReactTestInstance) => boolean): 
   for (let p = n.parent; p; p = p.parent) if (test(p)) return true;
   return false;
 };
-const isCoverage = (n: ReactTestInstance) => n.type === ('Mask' as never) || n.type === ('ClipPath' as never);
+const isCoverage = (n: ReactTestInstance) =>
+  n.type === ('Mask' as never) || n.type === ('ClipPath' as never);
 
 /**
  * Elements that paint COLOUR. A Mask or ClipPath, and a gradient only a mask
@@ -49,14 +50,19 @@ describe.each(entries)('%s', (_key, Logo) => {
     expect(colours.filter((c) => c !== '#123456')).toEqual([]);
   });
 
-  it(Logo.hasColor ? 'draws its own colours by default' : 'has no colour drawing, so default is mono', () => {
-    const r = render(<Logo color="#123456" />);
-    const hex = paints(r)
-      .flatMap((n) => [n.props.fill, n.props.stopColor])
-      .filter((v): v is string => typeof v === 'string' && HEX.test(v) && v !== '#123456');
-    if (Logo.hasColor) expect(hex.length).toBeGreaterThan(0);
-    else expect(hex).toEqual([]);
-  });
+  it(
+    Logo.hasColor
+      ? 'draws its own colours by default'
+      : 'has no colour drawing, so default is mono',
+    () => {
+      const r = render(<Logo color="#123456" />);
+      const hex = paints(r)
+        .flatMap((n) => [n.props.fill, n.props.stopColor])
+        .filter((v): v is string => typeof v === 'string' && HEX.test(v) && v !== '#123456');
+      if (Logo.hasColor) expect(hex.length).toBeGreaterThan(0);
+      else expect(hex).toEqual([]);
+    },
+  );
 
   it('every url(#…) points at an id in the same drawing, and ids differ per instance', () => {
     const r = render(
