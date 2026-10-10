@@ -57,7 +57,11 @@ function stripSuffix(id: string): string {
  */
 export function aiProviderCandidates(provider: string): string[] {
   // `openai/gpt-4o` → `openai`: a full model id carries its publisher first.
-  const id = provider.trim().toLowerCase().split('/')[0]!.replace(/[\s_.]+/g, '-');
+  const id = provider
+    .trim()
+    .toLowerCase()
+    .split('/')[0]!
+    .replace(/[\s_.]+/g, '-');
   const joined = id.replace(/-/g, '');
   const first = id.split('-')[0] ?? '';
   const out = [id, joined, stripSuffix(joined), first, stripSuffix(first)];
@@ -73,7 +77,9 @@ export function aiProviderCandidates(provider: string): string[] {
  * `ai` / `lab(s)` / `research` / `studio`; its first hyphen segment; that
  * segment without the suffix. Each try checks the registry, then the aliases.
  */
-export function resolveAiProvider(provider: string | null | undefined): AiProviderLogoKey | undefined {
+export function resolveAiProvider(
+  provider: string | null | undefined,
+): AiProviderLogoKey | undefined {
   if (!provider) return undefined;
   for (const c of aiProviderCandidates(provider)) {
     const hit = lookup(c);
@@ -83,7 +89,9 @@ export function resolveAiProvider(provider: string | null | undefined): AiProvid
 }
 
 /** The mark component for a publisher id, or `undefined`. */
-export function getAiProviderLogo(provider: string | null | undefined): AiLogoComponent | undefined {
+export function getAiProviderLogo(
+  provider: string | null | undefined,
+): AiLogoComponent | undefined {
   const key = resolveAiProvider(provider);
   return key ? AI_PROVIDER_LOGOS[key] : undefined;
 }

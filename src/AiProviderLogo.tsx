@@ -55,13 +55,7 @@ export function AiProviderLogoFallback({
   return (
     <Svg {...rest} width={px} height={px} viewBox="0 0 24 24">
       <Rect x="0" y="0" width="24" height="24" rx="6" fill={paint} fillOpacity={0.14} />
-      <SvgText
-        x="12"
-        y="16.5"
-        fill={paint}
-        fontSize="13"
-        fontWeight="600"
-        textAnchor="middle">
+      <SvgText x="12" y="16.5" fill={paint} fontSize="13" fontWeight="600" textAnchor="middle">
         {aiProviderInitial(provider)}
       </SvgText>
     </Svg>

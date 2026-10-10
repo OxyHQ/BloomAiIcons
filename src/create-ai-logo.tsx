@@ -53,7 +53,8 @@ export function createAiLogo(def: AiLogoDefinition): AiLogoComponent {
         viewBox={def.viewBox ?? '0 0 24 24'}
         width={px}
         height={px}
-        style={style}>
+        style={style}
+      >
         {drawing}
       </Svg>
     );

@@ -73,6 +73,9 @@
     "verify:package": "node scripts/verify-package.mjs",
     "test": "jest",
     "typescript": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
     "clean": "rm -rf lib",
     "prepack": "bun run clean && bun run build",
     "release": "rm -rf lib && bun run build && release-it"
@@ -92,6 +95,7 @@
     "react-native-svg": ">=13.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.15",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",
     "@types/react-test-renderer": "^19.1.0",

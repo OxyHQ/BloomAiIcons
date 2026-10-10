@@ -4,7 +4,8 @@
 
 ```bash
 bun install
-bun run typescript && bun run test && bun run build   # build runs verify:package
+bun run lint && bun run typescript && bun run test && bun run build   # build runs verify:package
+bun run lint:fix                                      # Biome: format + safe lint fixes
 bun run release                                       # release-it: bump, tag, GitHub release, npm publish
 ```
 
@@ -15,6 +16,8 @@ a prop, never from Bloom's theme — do not add `@oxy.so/bloom` as a dependency.
 - **`src/icons/` is GENERATED** by `scripts/generate-icons.mjs` from
   `scripts/icon-manifest.json`. Never hand-edit it; change the script or the
   manifest and regenerate. The artwork is fetched at generation time only.
+  Biome ignores it (`!src/icons` in `biome.json`) so a regeneration never
+  fights the formatter; keep it that way.
 - **Never name where the artwork comes from** — not in code, component names,
   comments, docs, stories or commits. The single exception is the MIT notice
   in `NOTICE`, which the license requires. Check with a grep before committing.
