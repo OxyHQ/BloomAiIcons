@@ -6,8 +6,9 @@
 bun install
 bun run lint && bun run typescript && bun run test && bun run build   # build runs verify:package
 bun run lint:fix                                      # Biome: format + safe lint fixes
-bun run release                                       # release-it: bump, tag, GitHub release, npm publish
 ```
+
+npm: only Actions → Release packages (Oxy's shared workflow); gates = `prepublishOnly` — `~/Oxy/docs/npm-releases.md`.
 
 Companion to `@oxy.so/bloom`, kept separate so the main kit does not carry
 the drawings. Peers are `react` + `react-native-svg` ONLY: colour comes in as
