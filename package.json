@@ -78,7 +78,7 @@
     "format": "biome format --write .",
     "clean": "rm -rf lib",
     "prepack": "bun run clean && bun run build",
-    "release": "rm -rf lib && bun run build && release-it"
+    "prepublishOnly": "bun run typescript && bun run test && bun run build"
   },
   "keywords": [
     "react-native",
@@ -105,7 +105,6 @@
     "react-native-builder-bob": "^0.40.16",
     "react-native-svg": "^15.15.3",
     "react-test-renderer": "19.2.0",
-    "release-it": "^19.0.6",
     "ts-jest": "^29.4.6",
     "typescript": "~5.9.2"
   },
@@ -133,19 +132,5 @@
         }
       ]
     ]
-  },
-  "release-it": {
-    "git": {
-      "tagName": "@oxy.so/bloom-ai-icons@${version}",
-      "tagAnnotation": "Release @oxy.so/bloom-ai-icons@${version}",
-      "commitMessage": "chore: release @oxy.so/bloom-ai-icons@${version}"
-    },
-    "github": {
-      "release": true,
-      "releaseName": "@oxy.so/bloom-ai-icons@${version}"
-    },
-    "npm": {
-      "publish": true
-    }
   }
 }
