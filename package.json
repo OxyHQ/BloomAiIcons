@@ -76,9 +76,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "clean": "rm -rf lib",
-    "prepack": "bun run clean && bun run build",
-    "prepublishOnly": "bun run typescript && bun run test && bun run build"
+    "clean": "rm -rf lib"
   },
   "keywords": [
     "react-native",
