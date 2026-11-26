@@ -28,6 +28,12 @@ jobs:
           node-version: 22
       - run: bun install --frozen-lockfile
       - run: bunx biome ci .
+      # bunfig.toml exempts every first-party package from the install
+      # quarantine by exact name (see scripts/check-release-age-excludes.mjs).
+      - name: First-party packages are exempt from the install quarantine
+        run: |
+          node --test scripts/test-check-release-age-excludes.mjs
+          node scripts/check-release-age-excludes.mjs
       - run: bun run typescript
       - run: bun run test
       - run: bun run build
